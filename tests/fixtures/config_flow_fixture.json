@@ -1,0 +1,56 @@
+{"default": {
+    "user_data": {
+            "dev_mode": false,
+            "ip_address": "http://localhost",
+            "port": "80",
+            "api_key": "", 
+            "timeout": "1",
+            "detect_only": false,
+            "save_file_folder": "img",
+            "save_faces_folder": "faces", 
+            "show_boxes": true
+        },
+        "config_flow_data": {
+            "dev_mode": false,
+            "ip_address": "http://localhost",
+            "port": "80",
+            "api_key": "", 
+            "timeout": "1",
+            "detect_only": false,
+            "save_file_folder": "img",
+            "save_timestamped_file": true,
+            "save_faces_folder": "faces", 
+            "save_faces": true , 
+            "show_boxes": true
+        }
+    },
+    "no_save_folder": {
+        "user_data": {
+                "dev_mode": false,
+                "ip_address": "localhost",
+                "port": "80",
+                "api_key": "", 
+                "timeout": "1",
+                "detect_only": false,
+                "save_file_folder": "",
+                "save_faces_folder": "", 
+                "show_boxes": true
+            },
+            "config_flow_data": {
+                "dev_mode": false,
+                "ip_address": "localhost",
+                "port": "80",
+                "api_key": "", 
+                "timeout": "1",
+                "detect_only": false,
+                "save_file_folder": "",
+                "save_timestamped_file": false,
+                "save_faces_folder": "", 
+                "save_faces": false , 
+                "show_boxes": true
+        }
+    }
+}
+
+
+

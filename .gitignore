@@ -1,0 +1,24 @@
+site
+.pytest*
+__pycache__
+action/Test
+settings.json
+.devcontainer/configuration.yaml
+node_modules
+custom_components/custom_components
+custom_components/hacs/hacs_frontend
+*.egg-info
+*/dist/*
+*/build/*
+.vscode
+
+# dependencies
+/node_modules
+.coverage
+coverage.xml
+htmlcov
+venv
+config
+
+
+other_test/

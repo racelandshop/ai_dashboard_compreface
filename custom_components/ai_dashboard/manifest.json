@@ -1,0 +1,21 @@
+{
+    "codeowners": [
+        "@zroger499"
+    ],
+    "config_flow": true,
+    "dependencies": [
+        "http",
+        "websocket_api",
+        "frontend",
+        "persistent_notification",
+        "lovelace"
+    ],
+    "requirements": [
+        "pillow",
+        "compreface-sdk"
+    ],
+    "iot_class": "local_push",
+    "domain": "ai_dashboard",
+    "name": "AI Facial Dashboard",
+    "version": "1.0.0"
+}

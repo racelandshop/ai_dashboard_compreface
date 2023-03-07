@@ -1,0 +1,3 @@
+homeassistant==2022.12.0
+compreface-sdk
+pillow

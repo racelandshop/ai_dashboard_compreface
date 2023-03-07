@@ -1,0 +1,1 @@
+"""Init AI Facial Dashbooard tasks."""

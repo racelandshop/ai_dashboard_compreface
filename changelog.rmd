@@ -1,0 +1,8 @@
+# Changelog v1.0.0 
+
+- Fixed the issue with the render not updating in the main dashboard: Note - The teach face is no longer a service 
+- Implemented a more responsive dialog which accepts multiple images as input (The more the merrier)
+- Improved the upload photos dialog dialog 
+- Added a notification system
+- Added an icon to the dashboard
+- Cleaned some of the code 

@@ -1,0 +1,4 @@
+-r requirements_dev.txt
+
+# Strictly for tests
+pytest-homeassistant-custom-component==0.12.29

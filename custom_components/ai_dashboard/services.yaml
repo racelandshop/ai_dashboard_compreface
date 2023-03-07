@@ -1,0 +1,15 @@
+scan: 
+  name: Scan Camera
+  description: Scan camera for facial recognition
+  target: 
+    entity: 
+      domain: image_processing 
+  fields: 
+    camera_scan_entity_id: 
+      name: Camera entity
+      required: true
+      example: "camera.generic"
+      selector: 
+        entity: 
+          domain: camera
+        
