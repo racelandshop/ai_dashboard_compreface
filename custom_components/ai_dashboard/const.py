@@ -5,17 +5,20 @@ from homeassistant.const import Platform
 
 DOMAIN = "ai_dashboard"
 
-DEFAULT_IP_ADRESS = "localhost"
-DEFAULT_PORT = "80"
-DEFAULT_API_KEY = ""
+DEFAULT_IP_ADRESS = "http://localhost"
+DEFAULT_PORT = "8000"
+DEFAULT_API_RECOGNITION_KEY = "00000000-0000-0000-0000-000000000002" 
+DEFAULT_API_DETECTION_KEY = "00000000-0000-0000-0000-000000000003"
 DEFAULT_TIMEOUT = "10"
 DEFAULT_SAVE_FILE_FOLDER = "img"
 DEFAULT_SAVE_FACE_FOLDER = "faces"
+DEFAULT_MIN_CONFIDANCE = 0.8
 
 COMPREFACE_CONNECT_ERROR_MESSAGE = "Error connecting to compreface server at {0}:{1}. Make sure the dockercompose service is running and configurations are correct"
 
 CONF_DEV_MODE = "dev_mode"
-CONF_API_KEY = "api_key"
+CONF_API_RECOGNITION_KEY = "api_recognition_key" 
+CONF_API_DETECTION_KEY = "api_detetion_key" 
 CONF_TIMEOUT = "timeout"
 CONF_DETECT_ONLY = "detect_only"
 CONF_SAVE_FILE_FOLDER = "save_file_folder"
@@ -23,7 +26,7 @@ CONF_SAVE_TIMESTAMPTED_FILE = "save_timestamped_file"
 CONF_SAVE_FACES_FOLDER = "save_faces_folder"
 CONF_SAVE_FACES = "save_faces"
 CONF_SHOW_BOXES = "show_boxes"
-
+CONF_MIN_CONFIDANCE = "min_confidance"
 
 
 DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S"

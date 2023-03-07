@@ -8,13 +8,15 @@
           "dev_mode": "Turn on developer mode",
           "ip_address": "API IP Address",
           "port": "API Port",
-          "api_key": "Deepstack API key",
+          "api_recognition_key": "CompreFace Recognition API key",
+          "api_detetion_key": "CompreFace detection API key",
           "detect_only": "Detect Face Only (does not perform recognition)",
           "save_file_folder": "Save file folder",
           "save_faces": "Save Faces",
           "save_faces_folder": "Folder to save faces",
           "save_timestamped_file": "Save Timestamped file",
-          "show_boxes": "Show Boxes"
+          "show_boxes": "Show Boxes",
+          "min_confidance": "Minimum confidence"
         }
       }
     }
@@ -28,13 +30,15 @@
           "dev_mode": "Turn on developer mode",
           "ip_address": "API IP Address",
           "port": "API Port",
-          "api_key": "Deepstack API key",
+          "api_recognition_key": "CompreFace Recognition API key",
+          "api_detetion_key": "CompreFace detection API key",
           "detect_only": "Detect Face Only (does not perform recognition)",
           "save_file_folder": "Save file folder",
           "save_faces": "Save Faces",
           "save_faces_folder": "Folder to save faces",
           "save_timestamped_file": "Save Timestamped file",
-          "show_boxes": "Show Boxes"
+          "show_boxes": "Show Boxes", 
+          "min_confidance": "Minimum confidence"
         }
       }
     }
