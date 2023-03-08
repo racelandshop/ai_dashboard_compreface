@@ -2,7 +2,6 @@
 import json
 import pytest
 
-
 from pytest_homeassistant_custom_component.common import load_fixture
 
 from unittest.mock import patch
@@ -56,7 +55,6 @@ async def test_form(hass, bypass_setup_fixture):
 
     assert len(mock_setup_entry.mock_calls) == 1
 
-
 @pytest.mark.asyncio
 async def test_form_no_save_folder(hass, bypass_setup_fixture):
     """Test a successful config flow."""
@@ -78,3 +76,46 @@ async def test_form_no_save_folder(hass, bypass_setup_fixture):
 
     assert len(mock_setup_entry.mock_calls) == 1
 
+
+@pytest.mark.asyncio
+async def test_form_save_folder(hass, bypass_setup_fixture):
+    """Test a successful config flow."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    assert result["type"] == data_entry_flow.FlowResultType.FORM
+
+    with PATCH_SETUP_ENTRY as mock_setup_entry:
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], user_input=FIXTURES_TEST["save_folder"]["user_data"]
+        )
+        await hass.async_block_till_done()
+
+    assert result2["type"] == data_entry_flow.FlowResultType.CREATE_ENTRY
+    assert result2["title"] == "AI Dashboard"
+    assert result2["data"] == FIXTURES_TEST["save_folder"]["config_flow_data"]
+
+    assert len(mock_setup_entry.mock_calls) == 1
+
+
+@pytest.mark.asyncio
+async def test_default_values(hass, bypass_setup_fixture):
+    """Test a successful config flow."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    assert result["type"] == data_entry_flow.FlowResultType.FORM
+
+    with PATCH_SETUP_ENTRY as mock_setup_entry:
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], user_input=FIXTURES_TEST["default_values"]["user_data"]
+        )
+        await hass.async_block_till_done()
+
+    assert result2["type"] == data_entry_flow.FlowResultType.CREATE_ENTRY
+    assert result2["title"] == "AI Dashboard"
+    assert result2["data"] == FIXTURES_TEST["default_values"]["config_flow_data"]
+
+    assert len(mock_setup_entry.mock_calls) == 1

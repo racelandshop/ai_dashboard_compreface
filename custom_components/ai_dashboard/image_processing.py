@@ -1,8 +1,5 @@
 """
-Component that will perform facial recognition via deepstack.
-
-For more details about this platform, please refer to the documentation at
-https://home-assistant.io/components/image_processing.deepstack_face
+Component that will perform facial recognition via CompreFace
 """
 from typing import Any
 
@@ -41,7 +38,8 @@ from homeassistant.const import (
 
 from .const import (
     DOMAIN,
-    CONF_API_KEY,
+    CONF_API_RECOGNITION_KEY,
+    CONF_API_DETECTION_KEY,
     CONF_TIMEOUT,
     CONF_DETECT_ONLY,
     CONF_SAVE_FILE_FOLDER,
@@ -49,6 +47,7 @@ from .const import (
     CONF_SAVE_FACES_FOLDER,
     CONF_SAVE_FACES,
     CONF_SHOW_BOXES,
+    DEFAULT_MIN_CONFIDANCE,
     DEFAULT_API_KEY,
     DEFAULT_TIMEOUT,
     DATETIME_FORMAT,
@@ -74,22 +73,6 @@ _LOGGER = logging.getLogger(__name__)
 
 # rgb(red, green, blue)
 RED = (255, 0, 0)  # For objects within the ROI
-
-
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
-    {
-        vol.Required(CONF_IP_ADDRESS): cv.string,
-        vol.Required(CONF_PORT): cv.port,
-        vol.Optional(CONF_API_KEY, default=DEFAULT_API_KEY): cv.string,
-        vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.positive_int,
-        vol.Optional(CONF_DETECT_ONLY, default=False): cv.boolean,
-        vol.Optional(CONF_SAVE_FILE_FOLDER): cv.isdir,
-        vol.Optional(CONF_SAVE_TIMESTAMPTED_FILE, default=False): cv.boolean,
-        vol.Optional(CONF_SAVE_FACES_FOLDER): cv.isdir,
-        vol.Optional(CONF_SAVE_FACES, default=False): cv.boolean,
-        vol.Optional(CONF_SHOW_BOXES, default=True): cv.boolean,
-    }
-)
 
 SERVICE_TEACH_SCHEMA = vol.Schema(
     {
@@ -129,15 +112,18 @@ def setup_entity(hass, async_add_entities, discovery_info=None):
         save_faces_folder = Path(save_faces_folder)
 
     image_processing_face_entity = FaceClassifyEntity(
-        f"http://{config[CONF_IP_ADDRESS]}", # TODO: Check if there is an http before in the configflow
+        hass, 
+        config[CONF_IP_ADDRESS],
         config[CONF_PORT],
-        config.get(CONF_API_KEY),
-        config.get(CONF_TIMEOUT),
-        config.get(CONF_DETECT_ONLY),
+        config.get(CONF_API_RECOGNITION_KEY),
+        config.get(CONF_API_DETECTION_KEY),
+        config[CONF_TIMEOUT],
+        config[DEFAULT_MIN_CONFIDANCE], 
+        config[CONF_DETECT_ONLY],
         save_file_folder,
-        config.get(CONF_SAVE_TIMESTAMPTED_FILE),
+        config[CONF_SAVE_TIMESTAMPTED_FILE],
         save_faces_folder,
-        config.get(CONF_SAVE_FACES),
+        config[CONF_SAVE_FACES],
         config[CONF_SHOW_BOXES],
         name = "face_recognition_central"
     )
@@ -152,10 +138,13 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
 
     def __init__(
         self,
+        hass, 
         ip_address,
         port,
-        api_key,
+        api_key_recognition,
+        api_key_detection, 
         timeout,
+        min_confidance,
         detect_only,
         save_file_folder,
         save_timestamped_file,
@@ -166,19 +155,21 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
     ):
         """Init with the API key and model id."""
         super().__init__()
+        self.hass = hass
         self.compre_face: CompreFace = CompreFace(ip_address, port)
-        self.recognition: RecognitionService = self.compre_face.init_face_recognition(api_key)
-        self.detection: DetectionService = self.compre_face.init_face_detection("7990956c-3e39-4397-b627-223f1aeef238") 
-        #TODO: Pass this key in the config flow
+        self.recognition: RecognitionService = self.compre_face.init_face_recognition(api_key_recognition)
+        self.detection: DetectionService = self.compre_face.init_face_detection(api_key_detection)
         self.face_collection: FaceCollection = self.recognition.get_face_collection()
         self.subjects: Subjects = self.recognition.get_subjects()
 
-
         self.ip_address = ip_address
         self.port = port
-        self.api_key = api_key
+        self.recognition_api_key = api_key_recognition
+        self.detection_api_key = api_key_detection
+        
         self.camera_timeout = 10
         self._timeout = timeout
+        self._min_confidance = min_confidance
         self._detect_only = detect_only
         self._show_boxes = show_boxes
         self._last_detection = None
@@ -192,7 +183,6 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
         self._registered_faces = {}
         self.total_faces = None
 
-        # TODO MOVE TO another place (i.e helpers)
         m = hashlib.sha256()
         m.update(b"face_recognition_central")
         self._attr_unique_id = m.hexdigest()
@@ -235,7 +225,7 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
             self._last_detection = dt_util.now().strftime(DATETIME_FORMAT)
             self.total_faces = len(self._predictions)
             self.faces = get_faces(self._predictions, image_width, image_height)
-            self._matched = get_matched_faces(self.faces)
+            self._matched = get_matched_faces(self.faces, self.min_confidance)
             self.process_faces(
                 self.faces, self.total_faces,
             ) 
@@ -464,7 +454,6 @@ def get_faces(predictions: list, img_width: int, img_height: int):
         )
     return faces
 
-def get_matched_faces(faces): 
+def get_matched_faces(faces, min_confidence_treshold): 
     """Check number of mached faces"""
-    #TODO: Add a treshold here
-    return [face["name"] for face in faces if face["name"] != "unknown"] 
+    return [face["name"] for face in faces if face["name"] != "unknown" and face["similarity"] >= min_confidence_treshold] 

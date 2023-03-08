@@ -14,7 +14,6 @@ FIXTURES_TEST = json.loads(load_fixture("config_flow_fixture.json"))
 async def test_async_setup_entry(hass): 
     """Test async_setup_entry"""
   
-
     #Load config flow data
     fixture_test = FIXTURES_TEST["default"]["config_flow_data"]
 

@@ -42,6 +42,7 @@ class AIFacialDashboardConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data = user_input
             data[CONF_SAVE_TIMESTAMPTED_FILE] = True if data.get(CONF_SAVE_FILE_FOLDER) != "" else False
             data[CONF_SAVE_FACES] = True if (data.get(CONF_SAVE_FACES_FOLDER) != "") else False
+            data[CONF_TIMEOUT] = int(data[CONF_TIMEOUT])
             return self.async_create_entry(title="AI Dashboard", data=data)
 
         data_schema = {
@@ -50,7 +51,7 @@ class AIFacialDashboardConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Required(CONF_PORT, default=DEFAULT_PORT): str,
             vol.Required(CONF_API_RECOGNITION_KEY, default=DEFAULT_API_RECOGNITION_KEY): str,
             vol.Required(CONF_API_DETECTION_KEY, default=DEFAULT_API_DETECTION_KEY): str,
-            vol.Required(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): int, 
+            vol.Required(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): str, 
             vol.Required(CONF_MIN_CONFIDANCE, default= DEFAULT_MIN_CONFIDANCE): float,
             vol.Optional(CONF_DETECT_ONLY, default=False): bool,
             vol.Optional(CONF_SAVE_FILE_FOLDER, default=DEFAULT_SAVE_FILE_FOLDER): str,
@@ -81,6 +82,7 @@ class AIFacialDashboardOptionsFlowHandler(config_entries.OptionsFlow):
             data = user_input
             data[CONF_SAVE_TIMESTAMPTED_FILE] = True if data.get(CONF_SAVE_FILE_FOLDER) != "" else False
             data[CONF_SAVE_FACES] = True if (data.get(CONF_SAVE_FACES_FOLDER) != "") else False
+            data[CONF_TIMEOUT] = int(data[CONF_TIMEOUT])
             return self.async_create_entry(title="", data=user_input)
 
         data_schema = {
@@ -89,9 +91,9 @@ class AIFacialDashboardOptionsFlowHandler(config_entries.OptionsFlow):
             vol.Required(CONF_PORT, default=DEFAULT_PORT): str,
             vol.Required(CONF_API_RECOGNITION_KEY, default=DEFAULT_API_RECOGNITION_KEY): str,
             vol.Required(CONF_API_DETECTION_KEY, default=DEFAULT_API_DETECTION_KEY): str,
-            vol.Required(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): int, 
+            vol.Required(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): str, 
             vol.Required(CONF_MIN_CONFIDANCE, default= DEFAULT_MIN_CONFIDANCE): float,
-            vol.Optional(CONF_DETECT_ONLY, default=False): bool,
+            vol.Required(CONF_DETECT_ONLY, default=False): bool,
             vol.Optional(CONF_SAVE_FILE_FOLDER, default=DEFAULT_SAVE_FILE_FOLDER): str,
             vol.Optional(CONF_SAVE_FACES_FOLDER, default=DEFAULT_SAVE_FACE_FOLDER): str,
             vol.Optional(CONF_SHOW_BOXES, default=True): bool,   

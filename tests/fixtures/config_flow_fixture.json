@@ -5,7 +5,7 @@
             "port": "8000",
             "api_recognition_key": "00000000-0000-0000-0000-000000000002",
             "api_detetion_key": "00000000-0000-0000-0000-000000000003",
-            "timeout": 1,
+            "timeout": "1",
             "min_confidance": 0.8,
             "detect_only": false,
             "save_file_folder": "img",
@@ -35,7 +35,7 @@
                 "port": "80",
                 "api_recognition_key": "00000000-0000-0000-0000-000000000002",
                 "api_detetion_key": "00000000-0000-0000-0000-000000000003",
-                "timeout": 1,
+                "timeout": "1",
                 "min_confidance": 0.8,
                 "detect_only": false,
                 "save_file_folder": "",
@@ -56,6 +56,60 @@
                 "save_faces_folder": "", 
                 "save_faces": false , 
                 "show_boxes": true
+        }
+    },
+    "save_folder": {
+        "user_data": {
+                "dev_mode": false,
+                "ip_address": "localhost",
+                "port": "80",
+                "api_recognition_key": "00000000-0000-0000-0000-000000000002",
+                "api_detetion_key": "00000000-0000-0000-0000-000000000003",
+                "timeout": "1",
+                "min_confidance": 0.8,
+                "detect_only": false,
+                "save_file_folder": "img/",
+                "save_faces_folder": "face/", 
+                "show_boxes": true
+            },
+            "config_flow_data": {
+                "dev_mode": false,
+                "ip_address": "localhost",
+                "port": "80",
+                "api_recognition_key": "00000000-0000-0000-0000-000000000002",
+                "api_detetion_key": "00000000-0000-0000-0000-000000000003",
+                "timeout": 1,
+                "min_confidance": 0.8,
+                "detect_only": false,
+                "save_file_folder": "img/",
+                "save_timestamped_file": true,
+                "save_faces_folder": "face/", 
+                "save_faces": true , 
+                "show_boxes": true
+        }
+    }, 
+    "default_values": {
+        "user_data": {
+            "dev_mode": false,
+            "detect_only": false,
+            "save_file_folder": "img/",
+            "save_faces_folder": "face/", 
+            "show_boxes": true
+        },
+        "config_flow_data": {
+            "dev_mode": false,
+            "ip_address": "http://localhost",
+            "port": "8000",
+            "api_recognition_key": "00000000-0000-0000-0000-000000000002",
+            "api_detetion_key": "00000000-0000-0000-0000-000000000003",
+            "timeout": 10,
+            "min_confidance": 0.8,
+            "detect_only": false,
+            "save_file_folder": "img/",
+            "save_timestamped_file": true,
+            "save_faces_folder": "face/", 
+            "save_faces": true , 
+            "show_boxes": true
         }
     }
 }
