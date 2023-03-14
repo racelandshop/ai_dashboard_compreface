@@ -15,9 +15,10 @@
 # See here for more info: https://docs.pytest.org/en/latest/fixture.html (note that
 # pytest includes fixtures OOB which you can use as defined on this page)
 
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 import pytest
+
 
 pytest_plugins = "pytest_homeassistant_custom_component"
 
@@ -39,3 +40,12 @@ def skip_notifications_fixture():
         "homeassistant.components.persistent_notification.async_dismiss"
     ):
         yield
+
+@pytest.fixture(autouse=False)
+def mock_requests_get():
+    def _mock_requests_get(image_content):
+        mock_response = Mock()
+        mock_response.content = image_content
+        return Mock(return_value=mock_response)
+    return _mock_requests_get
+

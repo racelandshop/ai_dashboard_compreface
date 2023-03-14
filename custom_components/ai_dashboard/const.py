@@ -12,7 +12,7 @@ DEFAULT_API_DETECTION_KEY = "00000000-0000-0000-0000-000000000003"
 DEFAULT_TIMEOUT = "10"
 DEFAULT_SAVE_FILE_FOLDER = "img"
 DEFAULT_SAVE_FACE_FOLDER = "faces"
-DEFAULT_MIN_CONFIDANCE = 0.8
+DEFAULT_MIN_CONFIDANCE = 80
 
 COMPREFACE_CONNECT_ERROR_MESSAGE = "Error connecting to compreface server at {0}:{1}. Make sure the dockercompose service is running and configurations are correct"
 

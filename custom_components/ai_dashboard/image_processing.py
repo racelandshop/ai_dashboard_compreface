@@ -26,7 +26,6 @@ from homeassistant.exceptions import HomeAssistantError
 
 
 from homeassistant.components.image_processing import (
-    PLATFORM_SCHEMA,
     ImageProcessingFaceEntity,
 )
 from homeassistant.const import (
@@ -47,11 +46,8 @@ from .const import (
     CONF_SAVE_FACES_FOLDER,
     CONF_SAVE_FACES,
     CONF_SHOW_BOXES,
-    DEFAULT_MIN_CONFIDANCE,
-    DEFAULT_API_KEY,
-    DEFAULT_TIMEOUT,
+    CONF_MIN_CONFIDANCE,
     DATETIME_FORMAT,
-    DEFAULT_API_KEY,
     FILE_PATH,
     CAMERA_SCAN_ENTITY_ID,
     COMPREFACE_CONNECT_ERROR_MESSAGE
@@ -103,6 +99,15 @@ def setup_entity(hass, async_add_entities, discovery_info=None):
     ai_facial_base = hass.data[DOMAIN]
     config = ai_facial_base.configuration.config_entry.data
     
+    image_processing_face_entity = setup_face_classify_entity(hass, config)
+
+    ai_facial_base  = hass.data[DOMAIN]
+    ai_facial_base.image_processing_entity = image_processing_face_entity
+    async_add_entities([image_processing_face_entity])
+    return True
+
+def setup_face_classify_entity(hass, config): 
+    """Takes as input the config (map with config flow values) and outputs the image processing entity"""
     save_file_folder = config.get(CONF_SAVE_FILE_FOLDER)
     if save_file_folder:
         save_file_folder = Path(save_file_folder)
@@ -111,6 +116,7 @@ def setup_entity(hass, async_add_entities, discovery_info=None):
     if save_faces_folder:
         save_faces_folder = Path(save_faces_folder)
 
+    
     image_processing_face_entity = FaceClassifyEntity(
         hass, 
         config[CONF_IP_ADDRESS],
@@ -118,7 +124,7 @@ def setup_entity(hass, async_add_entities, discovery_info=None):
         config.get(CONF_API_RECOGNITION_KEY),
         config.get(CONF_API_DETECTION_KEY),
         config[CONF_TIMEOUT],
-        config[DEFAULT_MIN_CONFIDANCE], 
+        config[CONF_MIN_CONFIDANCE], 
         config[CONF_DETECT_ONLY],
         save_file_folder,
         config[CONF_SAVE_TIMESTAMPTED_FILE],
@@ -128,10 +134,7 @@ def setup_entity(hass, async_add_entities, discovery_info=None):
         name = "face_recognition_central"
     )
 
-    ai_facial_base  = hass.data[DOMAIN]
-    ai_facial_base.image_processing_entity = image_processing_face_entity
-    async_add_entities([image_processing_face_entity])
-    return True
+    return image_processing_face_entity
 
 class FaceClassifyEntity(ImageProcessingFaceEntity):
     """Face classification image processing entity."""
@@ -265,11 +268,9 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
             else:
                 pictures_multiple_face += 1
                 picture_indexes_to_remove.append(i)
-            
-        # We need to fetch the images again after they were 'used' by faces_in_picture function. Not sure why there is this behanvior #TODO. DO I STILL NEED THIS?
-        image_list = [get_image_by_url(url) for url in url_list] 
-        image_list = [i for j, i in enumerate(image_list) if j not in picture_indexes_to_remove] #Remove pictures with no faces or with more than one face
-        
+
+        #Remove pictures with no faces or with more than one face
+        image_list = [i for j, i in enumerate(image_list) if j not in picture_indexes_to_remove] 
         notify_message = create_notify_message(name, pictures_single_face, pictures_no_face, pictures_multiple_face)
         if pictures_single_face == 0: 
             self.hass.components.persistent_notification.async_create(
@@ -279,7 +280,6 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
                 )
             raise NoUsablePhotoException(f"Homeland raised an error registering faces: {notify_message}")
             
-
         try: 
             for img in image_list: 
                 self.face_collection.add(image_path=img, subject=name)
