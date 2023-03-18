@@ -244,6 +244,55 @@
         ]
       }
     },
+    "single_face_detection": {
+      "prediction": {
+        "result": [ {
+          "age": {
+            "probability": 0.9999806880950928,
+            "high": 32,
+            "low": 25
+          },
+          "gender": {
+            "probability": 0.998909592628479,
+            "value": "female"
+          },
+          "box": {
+            "probability": 0.99958,
+            "x_max": 656,
+            "y_max": 828,
+            "x_min": 0,
+            "y_min": 96
+          },
+          "landmarks": [ [ 222,
+              410 ],
+            [ 434,
+              406 ],
+            [ 328,
+              554 ],
+            [ 252,
+              648 ],
+            [ 418,
+              644 ] ]
+          }]
+        },
+        "results":{
+          "faces": 
+          [
+            {"name": "unknown", 
+            "confidence": 99.958, 
+            "bounding_box": {
+              "height": 7.32,
+              "width": 6.56,
+              "y_min": 0.96,
+              "x_min": 0.0,
+              "y_max": 8.28,
+              "x_max": 6.56
+              },
+            "entity_id": null
+            }
+          ]
+        }
+      },
     "no_face": {
       "prediction": {
           "message": "No face is found in the given image", 

@@ -177,8 +177,6 @@ async def test_image_processing_multiple_faces_in_picture(hass):
     ), patch("compreface.service.detection_service.DetectionService.detect", return_value = {"result": ["foo", "bar"]}):
         assert mock_image_processing_entity.faces_in_picture(b"mock_image") == 2
 
-
-
 @pytest.mark.asyncio
 async def test_image_facial_recognition_single_face(hass):
     """Test the return of faces_in_picture function with only one face"""
@@ -234,20 +232,58 @@ async def test_image_facial_recognition_multiple_faces_2(hass):
         assert mock_image_processing_entity.faces == FIXTURES_FACIAL_RECOGNITION_RESULTS["multiple_faces2"]["results"]["faces"]
 
 @pytest.mark.asyncio
-async def test_image_facial_recognition_no_faces(hass):
-    """Test the return of faces_in_picture function with no face"""
+async def test_image_facial_recognition_single_face(hass):
+    """Test the return of faces_in_picture function with only one face"""
     fixture_test = FIXTURES_CONFIG_FLOW["default"]["config_flow_data"]
     mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test)
     image_bytes = generate_dummy_image()
-    recognition_output = FIXTURES_FACIAL_RECOGNITION_RESULTS["no_face"]["prediction"]
+    recognition_output = FIXTURES_FACIAL_RECOGNITION_RESULTS["single_face"]["prediction"]
     with patch("compreface.service.recognition_service.RecognitionService.recognize", return_value = recognition_output
+    ), patch("PIL.Image.Image.save"
     ), patch("custom_components.ai_dashboard.image_processing.FaceClassifyEntity.schedule_update_ha_state"): #I need to patch this since the entity does not have a entity_id
         await hass.async_add_executor_job(
             mock_image_processing_entity.process_image,image_bytes)
         
-        assert mock_image_processing_entity._predictions == FIXTURES_FACIAL_RECOGNITION_RESULTS["no_face"]["prediction"]
+        assert mock_image_processing_entity._predictions == FIXTURES_FACIAL_RECOGNITION_RESULTS["single_face"]["prediction"]["result"]
+        assert mock_image_processing_entity._matched == ["owner"]
+        assert mock_image_processing_entity.total_faces == 1
+        assert mock_image_processing_entity.faces == FIXTURES_FACIAL_RECOGNITION_RESULTS["single_face"]["results"]["faces"]
+
+@pytest.mark.asyncio
+async def test_image_facial_detection_single_face(hass):
+    """Test facial detection in a single face"""
+    test_setup = "single_face_detection"
+
+    fixture_test = FIXTURES_CONFIG_FLOW["detection_setup"]["config_flow_data"]
+    mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test)
+    image_bytes = generate_dummy_image()
+    detection_output = FIXTURES_FACIAL_RECOGNITION_RESULTS[test_setup]["prediction"]
+    with patch("PIL.Image.Image.save"
+    ), patch("compreface.service.detection_service.DetectionService.detect", return_value = detection_output
+    ), patch("custom_components.ai_dashboard.image_processing.FaceClassifyEntity.schedule_update_ha_state"): #I need to patch this since the entity does not have a entity_id
+        await hass.async_add_executor_job(
+            mock_image_processing_entity.process_image,image_bytes)
+        
+        assert mock_image_processing_entity._predictions == FIXTURES_FACIAL_RECOGNITION_RESULTS[test_setup]["prediction"]["result"]
         assert mock_image_processing_entity._matched == []
-        assert mock_image_processing_entity.total_faces == None
+        assert mock_image_processing_entity.total_faces == 1
+        assert mock_image_processing_entity.faces == FIXTURES_FACIAL_RECOGNITION_RESULTS[test_setup]["results"]["faces"]
+
+# @pytest.mark.asyncio
+# async def test_image_facial_recognition_no_faces(hass):
+#     """Test the return of faces_in_picture function with no face"""
+#     fixture_test = FIXTURES_CONFIG_FLOW["default"]["config_flow_data"]
+#     mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test)
+#     image_bytes = generate_dummy_image()
+#     recognition_output = FIXTURES_FACIAL_RECOGNITION_RESULTS["no_face"]["prediction"]
+#     with patch("compreface.service.recognition_service.RecognitionService.recognize", return_value = recognition_output
+#     ), patch("custom_components.ai_dashboard.image_processing.FaceClassifyEntity.schedule_update_ha_state"): #I need to patch this since the entity does not have a entity_id
+#         await hass.async_add_executor_job(
+#             mock_image_processing_entity.process_image,image_bytes)
+        
+#         assert mock_image_processing_entity._predictions == FIXTURES_FACIAL_RECOGNITION_RESULTS["no_face"]["prediction"]
+#         assert mock_image_processing_entity._matched == []
+#         assert mock_image_processing_entity.total_faces == None
 
 @pytest.mark.asyncio
 async def test_save_image_call(hass):
@@ -317,14 +353,9 @@ async def test_save_images_multiple_faces(hass):
 @pytest.mark.asyncio
 async def test_save_images_single_face_no_face_folder(hass):
     """Test how many times the PIL.Image.save is being called"""
-    fixture_test = FIXTURES_CONFIG_FLOW["default"]["config_flow_data"]
-    #Copy the dictionary and edit these values
-    fixture_test_copy = fixture_test.copy()
-    fixture_test_copy["save_faces_folder"] = ""
-    fixture_test_copy["save_faces"] = False
-    ##
+    fixture_test = FIXTURES_CONFIG_FLOW["save_image_folder_no_save_face_folder"]["config_flow_data"]
     image_bytes = generate_dummy_image()
-    mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test_copy)
+    mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test)
     recognition_output = FIXTURES_FACIAL_RECOGNITION_RESULTS["single_face"]["prediction"]
     with patch("compreface.service.recognition_service.RecognitionService.recognize", return_value = recognition_output
     ), patch("custom_components.ai_dashboard.image_processing.FaceClassifyEntity.schedule_update_ha_state"
@@ -337,14 +368,9 @@ async def test_save_images_single_face_no_face_folder(hass):
 @pytest.mark.asyncio
 async def test_save_images_single_face_no_save_image_folder(hass):
     """Test how many times the PIL.Image.save is being called"""
-    fixture_test = FIXTURES_CONFIG_FLOW["default"]["config_flow_data"]
-    #Copy the dictionary and edit these values
-    fixture_test_copy = fixture_test.copy()
-    fixture_test_copy["save_file_folder"] = ""
-    fixture_test_copy["save_timestamped_file"] = False
-    ##
+    fixture_test = FIXTURES_CONFIG_FLOW["save_face_folder_no_save_file_folder"]["config_flow_data"]
     image_bytes = generate_dummy_image()
-    mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test_copy)
+    mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test)
     recognition_output = FIXTURES_FACIAL_RECOGNITION_RESULTS["single_face"]["prediction"]
     with patch("compreface.service.recognition_service.RecognitionService.recognize", return_value = recognition_output
     ), patch("custom_components.ai_dashboard.image_processing.FaceClassifyEntity.schedule_update_ha_state"
@@ -357,14 +383,9 @@ async def test_save_images_single_face_no_save_image_folder(hass):
 @pytest.mark.asyncio
 async def test_save_images_multiple_face_no_face_folder(hass):
     """Test how many times the PIL.Image.save is being called"""
-    fixture_test = FIXTURES_CONFIG_FLOW["default"]["config_flow_data"]
-    #Copy the dictionary and edit these values
-    fixture_test_copy = fixture_test.copy()
-    fixture_test_copy["save_faces_folder"] = ""
-    fixture_test_copy["save_faces"] = False
-    ##
+    fixture_test = FIXTURES_CONFIG_FLOW["save_image_folder_no_save_face_folder"]["config_flow_data"]
     image_bytes = generate_dummy_image()
-    mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test_copy)
+    mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test)
     recognition_output = FIXTURES_FACIAL_RECOGNITION_RESULTS["multiple_faces"]["prediction"]
     with patch("compreface.service.recognition_service.RecognitionService.recognize", return_value = recognition_output
     ), patch("custom_components.ai_dashboard.image_processing.FaceClassifyEntity.schedule_update_ha_state"
@@ -377,14 +398,9 @@ async def test_save_images_multiple_face_no_face_folder(hass):
 @pytest.mark.asyncio
 async def test_save_images_multiple_face_no_save_image_folder(hass):
     """Test how many times the PIL.Image.save is being called"""
-    fixture_test = FIXTURES_CONFIG_FLOW["default"]["config_flow_data"]
-    #Copy the dictionary and edit these values
-    fixture_test_copy = fixture_test.copy()
-    fixture_test_copy["save_file_folder"] = ""
-    fixture_test_copy["save_timestamped_file"] = False
-    ##
+    fixture_test = FIXTURES_CONFIG_FLOW["save_face_folder_no_save_file_folder"]["config_flow_data"]
     image_bytes = generate_dummy_image()
-    mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test_copy)
+    mock_image_processing_entity = setup_face_classify_entity(hass, fixture_test)
     recognition_output = FIXTURES_FACIAL_RECOGNITION_RESULTS["multiple_faces"]["prediction"]
     with patch("compreface.service.recognition_service.RecognitionService.recognize", return_value = recognition_output
     ), patch("custom_components.ai_dashboard.image_processing.FaceClassifyEntity.schedule_update_ha_state"

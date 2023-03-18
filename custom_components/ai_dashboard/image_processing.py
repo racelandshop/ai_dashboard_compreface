@@ -225,11 +225,13 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
         if len(self._predictions) > 0:
             self._last_detection = dt_util.now().strftime(DATETIME_FORMAT)
             self.total_faces = len(self._predictions)
-            self.faces = get_faces(self._predictions, image_width, image_height)
-            self._matched = get_matched_faces(self.faces, self.confidence)
+            self.faces = get_faces(self._predictions, image_width, image_height, self._detect_only)
+            if not self._detect_only: 
+                self._matched = get_matched_faces(self.faces, self.confidence)
+            
             self.process_faces(
                 self.faces, self.total_faces,
-            ) #Fires an event for each matched face.
+            )#Fires an event for each matched face.
             
             if not self._detect_only:
                 if self._save_faces and self._save_faces_folder:
@@ -421,14 +423,14 @@ def get_valid_filename(name: str) -> str:
     return re.sub(r"(?u)[^-\w.]", "", str(name).strip().replace(" ", "_"))
 
 
-def get_faces(predictions: list, img_width: int, img_height: int):
+def get_faces(predictions: list, img_width: int, img_height: int, detect_only: bool):
     """Return faces with formatting for annotating images. Matches that do not meet the treshold are removed"""
     #TODO: Make a lot of tests for this function
     faces = []
     decimal_places = 3
     #name, max_confidance = get_max_confidance_subject()
     for pred in predictions:
-        if pred["subjects"] == []:
+        if pred.get("subjects", []) == []:
             name = "unknown"
         else:
             max_confidance = 0
@@ -438,7 +440,11 @@ def get_faces(predictions: list, img_width: int, img_height: int):
                     name = subject["subject"] 
                     max_confidance = subject["similarity"]
 
-        confidence = round(max_confidance * 100, decimal_places)
+        if not detect_only: 
+            confidence = max_confidance
+        else: 
+            confidence = pred["box"]["probability"]
+        confidence = round(confidence * 100, decimal_places)
         box = pred["box"]
         box_width = box["x_max"] - box["x_min"]
         box_height = box["y_max"] - box["y_min"]

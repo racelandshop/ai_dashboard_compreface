@@ -6,6 +6,9 @@
 Submited a github issue. Waiting for response
 
 
+detection vs recognition. Detection only detects face, the probability reported is the probabilty that a face is detected. 
+Recognition detects the face, the probability reported is the similarity
+
 Tests limitations: The actuall API is not tested, the result is feed through mock.
 
 **NOTE** Everything bellow here should be updated/double checked
