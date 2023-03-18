@@ -84,7 +84,6 @@ SERVICE_SCAN_SCHEMA = vol.Schema(
     }
 )
 
-
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Set up the image processing entity from a config entry."""
     await async_setup_platform(hass, {}, async_add_entities)
@@ -367,7 +366,6 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
             attr["last_detection"] = self._last_detection
         return attr
 
-
     def save_faces(self, pil_image: Image, directory: Path):
         """Saves recognized faces."""
         for face in self.faces:
@@ -417,7 +415,7 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
     @callback
     def _update(self) -> None:
         """Update the image processing entity."""
-        _LOGGER.warn("Updating sensor")
+        _LOGGER.debug("Updating image_processing entity")
 
 def get_valid_filename(name: str) -> str:
     return re.sub(r"(?u)[^-\w.]", "", str(name).strip().replace(" ", "_"))

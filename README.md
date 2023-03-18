@@ -6,7 +6,7 @@
 Submited a github issue. Waiting for response
 
 
-
+Tests limitations: The actuall API is not tested, the result is feed through mock.
 
 **NOTE** Everything bellow here should be updated/double checked
 
