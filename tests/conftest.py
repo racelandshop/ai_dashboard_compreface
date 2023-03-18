@@ -19,7 +19,6 @@ from unittest.mock import patch, Mock
 
 import pytest
 
-
 pytest_plugins = "pytest_homeassistant_custom_component"
 
 
@@ -48,4 +47,3 @@ def mock_requests_get():
         mock_response.content = image_content
         return Mock(return_value=mock_response)
     return _mock_requests_get
-

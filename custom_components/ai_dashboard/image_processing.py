@@ -172,7 +172,7 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
         
         self.camera_timeout = 10
         self._timeout = timeout
-        self._min_confidance = min_confidance
+        self._confidence = min_confidance
         self._detect_only = detect_only
         self._show_boxes = show_boxes
         self._last_detection = None
@@ -204,9 +204,9 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
     
     def process_image(self, image): 
         self._predictions = []
-        self._matched = {}
+        self._matched = []
         self.total_faces = None   
-        pil_image =  Image.open(io.BytesIO(bytearray(image))).convert("RGB")
+        pil_image = Image.open(io.BytesIO(bytearray(image))).convert("RGB")
         image_width, image_height =  pil_image.size
 
         try: 
@@ -223,15 +223,14 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
     
         self._predictions = self._predictions["result"]
     
-
         if len(self._predictions) > 0:
             self._last_detection = dt_util.now().strftime(DATETIME_FORMAT)
             self.total_faces = len(self._predictions)
             self.faces = get_faces(self._predictions, image_width, image_height)
-            self._matched = get_matched_faces(self.faces, self.min_confidance)
+            self._matched = get_matched_faces(self.faces, self.confidence)
             self.process_faces(
                 self.faces, self.total_faces,
-            ) 
+            ) #Fires an event for each matched face.
             
             if not self._detect_only:
                 if self._save_faces and self._save_faces_folder:
@@ -307,8 +306,8 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
         """Returns the number of face in a picture"""
         return len(self.detection.detect(image).get("result", []))
 
-    def get_deepstack_stored_faces(self): 
-        """Wrapper function to get the stored faces in deepstack"""
+    def get_stored_faces(self): 
+        """Wrapper function to get the stored faces in compreFace"""
         try: 
             self._registered_faces  = self.subjects.list()["subjects"]
             return True
@@ -316,7 +315,7 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
             _LOGGER.error(COMPREFACE_CONNECT_ERROR_MESSAGE.format(self.ip_address, self.port))
             return False
 
-    def delete_deepstack_stored_faces(self, name):
+    def delete_stored_faces(self, name):
         if name in self._registered_faces: 
             try: 
                 self.subjects.delete(name)
@@ -324,13 +323,17 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
             except ConnectionRefusedError: 
                _LOGGER.error(COMPREFACE_CONNECT_ERROR_MESSAGE.format(self.ip_address, self.port))
         else: 
-            _LOGGER.error(f"Error, no face with for the user {name} is registered")
-
+            _LOGGER.error(f"Error, no face ith for the user {name} is registered")
+    
     @property
     def name(self):
         """Return the name of the sensor."""
         return self._name
 
+    @property 
+    def confidence(self) -> float | None:
+        return self._confidence
+    
     @property
     def registered_faces(self): 
         """Return registered faces """
@@ -421,7 +424,7 @@ def get_valid_filename(name: str) -> str:
 
 
 def get_faces(predictions: list, img_width: int, img_height: int):
-    """Return faces with formatting for annotating images."""
+    """Return faces with formatting for annotating images. Matches that do not meet the treshold are removed"""
     #TODO: Make a lot of tests for this function
     faces = []
     decimal_places = 3
@@ -456,4 +459,4 @@ def get_faces(predictions: list, img_width: int, img_height: int):
 
 def get_matched_faces(faces, min_confidence_treshold): 
     """Check number of mached faces"""
-    return [face["name"] for face in faces if face["name"] != "unknown" and face["similarity"] >= min_confidence_treshold] 
+    return [face["name"] for face in faces if face["name"] != "unknown" and face["confidence"] >= min_confidence_treshold] 
