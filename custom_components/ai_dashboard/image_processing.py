@@ -425,10 +425,8 @@ def get_valid_filename(name: str) -> str:
 
 def get_faces(predictions: list, img_width: int, img_height: int, detect_only: bool):
     """Return faces with formatting for annotating images. Matches that do not meet the treshold are removed"""
-    #TODO: Make a lot of tests for this function
     faces = []
     decimal_places = 3
-    #name, max_confidance = get_max_confidance_subject()
     for pred in predictions:
         if pred.get("subjects", []) == []:
             name = "unknown"

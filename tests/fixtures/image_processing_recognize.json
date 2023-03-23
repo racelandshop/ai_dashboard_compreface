@@ -1,252 +1,8 @@
-{"single_face": {
-  "prediction": {
-    "result": [ {
-      "age": {
-        "probability": 0.9999806880950928,
-        "high": 32,
-        "low": 25
-      },
-      "gender": {
-        "probability": 0.998909592628479,
-        "value": "female"
-      },
-      "box": {
-        "probability": 0.99958,
-        "x_max": 656,
-        "y_max": 828,
-        "x_min": 0,
-        "y_min": 96
-      },
-      "subjects": [ {
-          "subject": "owner",
-          "similarity": 0.99992
-        } ],
-      "landmarks": [ [ 222,
-          410 ],
-        [ 434,
-          406 ],
-        [ 328,
-          554 ],
-        [ 252,
-          648 ],
-        [ 418,
-          644 ] ]
-      }]
-    },
-    "results":{
-      "faces": 
-      [
-        {"name": "owner", 
-        "confidence": 99.992, 
-        "bounding_box": {
-          "height": 7.32,
-          "width": 6.56,
-          "y_min": 0.96,
-          "x_min": 0.0,
-          "y_max": 8.28,
-          "x_max": 6.56
-          },
-        "entity_id": null
-        }
-      ]
-    }
-  },
-  "multiple_faces": {
+{
+  "single_face": {
     "prediction": {
-      "result": [ {
-          "age": {
-            "probability": 0.9964421391487122,
-            "high": 32,
-            "low": 25
-          },
-          "gender": {
-            "probability": 1,
-            "value": "female"
-          },
-          "box": {
-            "probability": 0.99913,
-            "x_max": 834,
-            "y_max": 359,
-            "x_min": 529,
-            "y_min": 57
-          },
-          "subjects": [ {
-              "subject": "owner",
-              "similarity": 0.85
-            } ],
-          "landmarks": [ [ 648,
-              164 ],
-            [ 725,
-              218 ],
-            [ 651,
-              237 ],
-            [ 600,
-              235 ],
-            [ 673,
-              287 ] ]
-        },
+      "result": [
         {
-          "age": {
-            "probability": 0.9997939467430115,
-            "high": 12,
-            "low": 8
-          },
-          "gender": {
-            "probability": 0.9994285702705383,
-            "value": "male"
-          },
-          "box": {
-            "probability": 0.99671,
-            "x_max": 587,
-            "y_max": 634,
-            "x_min": 293,
-            "y_min": 315
-          },
-          "subjects": [ {
-              "subject": "ownerWife",
-              "similarity": 0.90
-            } ],
-          "landmarks": [ [ 393,
-              457 ],
-            [ 487,
-              434 ],
-            [ 456,
-              514 ],
-            [ 409,
-              539 ],
-            [ 510,
-              515 ] ]
-        } ]
-      },
-      "results":{
-        "faces": 
-        [
-          {"name": "owner", 
-          "confidence": 85.0, 
-          "bounding_box": {
-            "height": 3.02,
-            "width": 3.05,
-            "y_min": 0.57,
-            "x_min": 5.29,
-            "y_max": 3.59,
-            "x_max": 8.34
-            },
-          "entity_id": null
-          },
-          {"name": "ownerWife", 
-          "confidence": 90.0, 
-          "bounding_box":{
-            "height": 3.19,
-            "width": 2.94, 
-            "x_max": 5.87, 
-            "x_min": 2.93, 
-            "y_max": 6.34, 
-            "y_min": 3.15
-          },
-          "entity_id": null
-          }
-        ]
-      }
-    },
-    "multiple_faces2": {
-    "prediction": {
-      "result": [ {
-          "age": {
-            "probability": 0.9964421391487122,
-            "high": 32,
-            "low": 25
-          },
-          "gender": {
-            "probability": 1,
-            "value": "female"
-          },
-          "box": {
-            "probability": 0.99913,
-            "x_max": 834,
-            "y_max": 359,
-            "x_min": 529,
-            "y_min": 57
-          },
-          "subjects": [ {
-              "subject": "owner",
-              "similarity": 0.85
-            } ],
-          "landmarks": [ [ 648,
-              164 ],
-            [ 725,
-              218 ],
-            [ 651,
-              237 ],
-            [ 600,
-              235 ],
-            [ 673,
-              287 ] ]
-        },
-        {
-          "age": {
-            "probability": 0.9997939467430115,
-            "high": 12,
-            "low": 8
-          },
-          "gender": {
-            "probability": 0.9994285702705383,
-            "value": "male"
-          },
-          "box": {
-            "probability": 0.99671,
-            "x_max": 587,
-            "y_max": 634,
-            "x_min": 293,
-            "y_min": 315
-          },
-          "subjects": [ {
-              "subject": "ownerWife",
-              "similarity": 0.60
-            } ],
-          "landmarks": [ [ 393,
-              457 ],
-            [ 487,
-              434 ],
-            [ 456,
-              514 ],
-            [ 409,
-              539 ],
-            [ 510,
-              515 ] ]
-        } ]
-      },
-      "results":{
-        "faces": 
-        [
-          {"name": "owner", 
-          "confidence": 85.0, 
-          "bounding_box": {
-            "height": 3.02,
-            "width": 3.05,
-            "y_min": 0.57,
-            "x_min": 5.29,
-            "y_max": 3.59,
-            "x_max": 8.34
-            },
-          "entity_id": null
-          },
-          {"name": "ownerWife", 
-          "confidence": 60.0, 
-          "bounding_box":{
-            "height": 3.19,
-            "width": 2.94, 
-            "x_max": 5.87, 
-            "x_min": 2.93, 
-            "y_max": 6.34, 
-            "y_min": 3.15
-          }
-          }
-        ]
-      }
-    },
-    "single_face_detection": {
-      "prediction": {
-        "result": [ {
           "age": {
             "probability": 0.9999806880950928,
             "high": 32,
@@ -263,40 +19,493 @@
             "x_min": 0,
             "y_min": 96
           },
-          "landmarks": [ [ 222,
-              410 ],
-            [ 434,
-              406 ],
-            [ 328,
-              554 ],
-            [ 252,
-              648 ],
-            [ 418,
-              644 ] ]
-          }]
-        },
-        "results":{
-          "faces": 
-          [
-            {"name": "unknown", 
-            "confidence": 99.958, 
-            "bounding_box": {
-              "height": 7.32,
-              "width": 6.56,
-              "y_min": 0.96,
-              "x_min": 0.0,
-              "y_max": 8.28,
-              "x_max": 6.56
-              },
-            "entity_id": null
+          "subjects": [
+            {
+              "subject": "owner",
+              "similarity": 0.99992
             }
+          ],
+          "landmarks": [
+            [
+              222,
+              410
+            ],
+            [
+              434,
+              406
+            ],
+            [
+              328,
+              554
+            ],
+            [
+              252,
+              648
+            ],
+            [
+              418,
+              644
+            ]
           ]
         }
-      },
-    "no_face": {
-      "prediction": {
-          "message": "No face is found in the given image", 
-          "code": 28
+      ]
+    },
+    "results": {
+      "faces": [
+        {
+          "name": "owner",
+          "confidence": 99.992,
+          "bounding_box": {
+            "height": 7.32,
+            "width": 6.56,
+            "y_min": 0.96,
+            "x_min": 0,
+            "y_max": 8.28,
+            "x_max": 6.56
+          },
+          "entity_id": null
         }
-      }  
+      ]
+    }
+  },
+  "multiple_faces": {
+    "prediction": {
+      "result": [
+        {
+          "age": {
+            "probability": 0.9964421391487122,
+            "high": 32,
+            "low": 25
+          },
+          "gender": {
+            "probability": 1,
+            "value": "female"
+          },
+          "box": {
+            "probability": 0.99913,
+            "x_max": 834,
+            "y_max": 359,
+            "x_min": 529,
+            "y_min": 57
+          },
+          "subjects": [
+            {
+              "subject": "owner",
+              "similarity": 0.85
+            }
+          ],
+          "landmarks": [
+            [
+              648,
+              164
+            ],
+            [
+              725,
+              218
+            ],
+            [
+              651,
+              237
+            ],
+            [
+              600,
+              235
+            ],
+            [
+              673,
+              287
+            ]
+          ]
+        },
+        {
+          "age": {
+            "probability": 0.9997939467430115,
+            "high": 12,
+            "low": 8
+          },
+          "gender": {
+            "probability": 0.9994285702705383,
+            "value": "male"
+          },
+          "box": {
+            "probability": 0.99671,
+            "x_max": 587,
+            "y_max": 634,
+            "x_min": 293,
+            "y_min": 315
+          },
+          "subjects": [
+            {
+              "subject": "ownerWife",
+              "similarity": 0.9
+            }
+          ],
+          "landmarks": [
+            [
+              393,
+              457
+            ],
+            [
+              487,
+              434
+            ],
+            [
+              456,
+              514
+            ],
+            [
+              409,
+              539
+            ],
+            [
+              510,
+              515
+            ]
+          ]
+        }
+      ]
+    },
+    "results": {
+      "faces": [
+        {
+          "name": "owner",
+          "confidence": 85,
+          "bounding_box": {
+            "height": 3.02,
+            "width": 3.05,
+            "y_min": 0.57,
+            "x_min": 5.29,
+            "y_max": 3.59,
+            "x_max": 8.34
+          },
+          "entity_id": null
+        },
+        {
+          "name": "ownerWife",
+          "confidence": 90,
+          "bounding_box": {
+            "height": 3.19,
+            "width": 2.94,
+            "x_max": 5.87,
+            "x_min": 2.93,
+            "y_max": 6.34,
+            "y_min": 3.15
+          },
+          "entity_id": null
+        }
+      ]
+    }
+  },
+  "multiple_faces2": {
+    "prediction": {
+      "result": [
+        {
+          "age": {
+            "probability": 0.9964421391487122,
+            "high": 32,
+            "low": 25
+          },
+          "gender": {
+            "probability": 1,
+            "value": "female"
+          },
+          "box": {
+            "probability": 0.99913,
+            "x_max": 834,
+            "y_max": 359,
+            "x_min": 529,
+            "y_min": 57
+          },
+          "subjects": [
+            {
+              "subject": "owner",
+              "similarity": 0.85
+            }
+          ],
+          "landmarks": [
+            [
+              648,
+              164
+            ],
+            [
+              725,
+              218
+            ],
+            [
+              651,
+              237
+            ],
+            [
+              600,
+              235
+            ],
+            [
+              673,
+              287
+            ]
+          ]
+        },
+        {
+          "age": {
+            "probability": 0.9997939467430115,
+            "high": 12,
+            "low": 8
+          },
+          "gender": {
+            "probability": 0.9994285702705383,
+            "value": "male"
+          },
+          "box": {
+            "probability": 0.99671,
+            "x_max": 587,
+            "y_max": 634,
+            "x_min": 293,
+            "y_min": 315
+          },
+          "subjects": [
+            {
+              "subject": "ownerWife",
+              "similarity": 0.6
+            }
+          ],
+          "landmarks": [
+            [
+              393,
+              457
+            ],
+            [
+              487,
+              434
+            ],
+            [
+              456,
+              514
+            ],
+            [
+              409,
+              539
+            ],
+            [
+              510,
+              515
+            ]
+          ]
+        }
+      ]
+    },
+    "results": {
+      "faces": [
+        {
+          "name": "owner",
+          "confidence": 85,
+          "bounding_box": {
+            "height": 3.02,
+            "width": 3.05,
+            "y_min": 0.57,
+            "x_min": 5.29,
+            "y_max": 3.59,
+            "x_max": 8.34
+          },
+          "entity_id": null
+        },
+        {
+          "name": "ownerWife",
+          "confidence": 60,
+          "bounding_box": {
+            "height": 3.19,
+            "width": 2.94,
+            "x_max": 5.87,
+            "x_min": 2.93,
+            "y_max": 6.34,
+            "y_min": 3.15
+          }
+        }
+      ]
+    }
+  },
+  "single_face_detection": {
+    "prediction": {
+      "result": [
+        {
+          "age": {
+            "probability": 0.9999806880950928,
+            "high": 32,
+            "low": 25
+          },
+          "gender": {
+            "probability": 0.998909592628479,
+            "value": "female"
+          },
+          "box": {
+            "probability": 0.99958,
+            "x_max": 656,
+            "y_max": 828,
+            "x_min": 0,
+            "y_min": 96
+          },
+          "landmarks": [
+            [
+              222,
+              410
+            ],
+            [
+              434,
+              406
+            ],
+            [
+              328,
+              554
+            ],
+            [
+              252,
+              648
+            ],
+            [
+              418,
+              644
+            ]
+          ]
+        }
+      ]
+    },
+    "results": {
+      "faces": [
+        {
+          "name": "unknown",
+          "confidence": 99.958,
+          "bounding_box": {
+            "height": 7.32,
+            "width": 6.56,
+            "y_min": 0.96,
+            "x_min": 0,
+            "y_max": 8.28,
+            "x_max": 6.56
+          },
+          "entity_id": null
+        }
+      ]
+    }
+  },
+  "multiple_face_detection": {
+    "prediction": {
+      "result": [
+        {
+          "age": {
+            "probability": 0.9964421391487122,
+            "high": 32,
+            "low": 25
+          },
+          "gender": {
+            "probability": 1,
+            "value": "female"
+          },
+          "box": {
+            "probability": 0.9991335272789001,
+            "x_max": 834,
+            "y_max": 359,
+            "x_min": 529,
+            "y_min": 57
+          },
+          "landmarks": [
+            [
+              648,
+              164
+            ],
+            [
+              725,
+              218
+            ],
+            [
+              651,
+              237
+            ],
+            [
+              600,
+              235
+            ],
+            [
+              673,
+              287
+            ]
+          ]
+        },
+        {
+          "age": {
+            "probability": 0.9997939467430115,
+            "high": 12,
+            "low": 8
+          },
+          "gender": {
+            "probability": 0.9994285702705383,
+            "value": "male"
+          },
+          "box": {
+            "probability": 0.996713399887085,
+            "x_max": 587,
+            "y_max": 634,
+            "x_min": 293,
+            "y_min": 315
+          },
+          "landmarks": [
+            [
+              393,
+              457
+            ],
+            [
+              487,
+              434
+            ],
+            [
+              456,
+              514
+            ],
+            [
+              409,
+              539
+            ],
+            [
+              510,
+              515
+            ]
+          ]
+        }
+      ]
+    },
+    "results": {
+      "faces": [
+        {
+          "name": "unknown",
+          "confidence": 99.913,
+          "bounding_box": {
+            "height": 3.02,
+            "width": 3.05,
+            "y_min": 0.57,
+            "x_min": 5.29,
+            "y_max": 3.59,
+            "x_max": 8.34
+          },
+          "entity_id": null
+        },
+        {
+          "name": "unknown",
+          "confidence": 99.671,
+          "bounding_box": {
+            "height": 3.19,
+            "width": 2.94,
+            "y_min": 3.15,
+            "x_min": 2.93,
+            "y_max": 6.34,
+            "x_max": 5.87
+          },
+          "entity_id": null
+        }
+      ]
+    }
+  },
+  "no_face": {
+    "prediction": {
+      "message": "No face is found in the given image",
+      "code": 28
+    }
+  }
 }
