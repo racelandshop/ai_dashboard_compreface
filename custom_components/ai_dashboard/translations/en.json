@@ -13,7 +13,7 @@
           "detect_only": "Detect Face Only (does not perform recognition)",
           "save_file_folder": "Save file folder",
           "save_faces": "Save Faces",
-          "save_faces_folder": "Folder to save faces",
+          "save_faces_folder": "Save Face Folder",
           "save_timestamped_file": "Save Timestamped file",
           "show_boxes": "Show Boxes",
           "min_confidance": "Minimum confidence"
@@ -35,7 +35,7 @@
           "detect_only": "Detect Face Only (does not perform recognition)",
           "save_file_folder": "Save file folder",
           "save_faces": "Save Faces",
-          "save_faces_folder": "Folder to save faces",
+          "save_faces_folder": "Save Face Folder",
           "save_timestamped_file": "Save Timestamped file",
           "show_boxes": "Show Boxes", 
           "min_confidance": "Minimum confidence"

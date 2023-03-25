@@ -331,7 +331,7 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
         return self._name
 
     @property 
-    def confidence(self) -> float | None:
+    def confidence(self):
         return self._confidence
     
     @property
@@ -411,7 +411,7 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
         if self._save_timestamped_file:
             timestamp_save_path = directory / f"{self._name}_{self._last_detection}.jpg"
             pil_image.save(timestamp_save_path)
-            _LOGGER.info("Deepstack saved file %s", timestamp_save_path)
+            _LOGGER.info("Saved file %s", timestamp_save_path)
     
     @callback
     def _update(self) -> None:

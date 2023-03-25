@@ -1,61 +1,86 @@
 # AI Facial Recognition Dashboard
 
 
-**Note on documentation about API keys** - 
+BBackend for the AI Facial Recognition Dashboard for homeland.
 
-Submited a github issue. Waiting for response
+This dashboard creates an entity called ```image_processing.face_recognition_central```, which acts as the central processing unit of the entire integration. It is responsible for scanning, registering, and predicting faces.
+
+# Getting started
+
+## Setting up CompreFace
+
+To run this custom component, you need to set up the CompreFace backend. A docker-compose file is provided in this folder (compareFace-docker-compose). Alternatively, you can also download the corresponding files from the CompreFace GitHub repository. Go to https://github.com/exadel-inc/CompreFace/releases/ and follow the instructions.
+
+To run the docker-compose simply type 
+```
+docker-compose up -d
+```
+
+## Setting up integration
+
+1. Copy the contents for custom_compoent/ai_dashboard to the custom_components in your homeassistant configuration folder
+2. Restart Homeassistant 
+3. Go to the integration tab in the HA fronten and setup using configFlow 
+
+Parameters/Options explanation
+
+- Dev mode: indicates whether the frotend is running in development mode. Leave if unchecked unless you want to develop
+- API IP addres: the IP address of the device where the compreFace API is hosted. 
+- API Port: the port number of the device where the compreFace API is hosted. 
+- CompreFace recognition key: the CompreFace API key for face recognition.
+- CompreFace detection API key: the CompreFace API key for face detection.
+- Timeout: the timeout for API requests.
+- Minimum confidance: the minimum confidence level for face recognition. Between 1 and 100
+- Detect Face Only: Indicates whether to detect faces only. Default is False.
+- Save file Folder: The folder path to save the image.
+- Save faces folder: The folder path to save the recognized faces. 
 
 
-detection vs recognition. Detection only detects face, the probability reported is the probabilty that a face is detected. 
-Recognition detects the face, the probability reported is the similarity
+This will create a new dashboard where you can register faces. The face detection/recognition is performed through a service
 
-Tests limitations: The actuall API is not tested, the result is feed through mock.
+## How does it work? 
 
-**NOTE** Everything bellow here should be updated/double checked
+### Registering faces
 
-Backend for the AI Facial Recognition Dashboard for homeland
+If you are using detection only you can skip this step. 
+To register a face you need to go the "AI Dashboard" tab that was just created. 
 
-This dashboard creates an entity called ```image_processing.face_recognition_central```, which acts as the central processing unit of the whole integration. 
-Its responsible for scaning, registering and predicting faces
+![Alt text](img/ai_dashboard_1.png "a title")
 
-# Deeptack docker 
+You will see a list of users as well as the registered status. If everything was corretly setup you should have all user with the "not registered" status. 
 
-Run the following command to have access to the docker command
+From here you can upload your photo to regiter the respective faces. You can upload more than one photo at the same time, but make sure that the face is visible and is the only face in the photo before uploading. You will receive a notification on HA after uploading with the number of photo uploaded.
 
-docker run -e VISION-DETECTION=True -e VISION-FACE=True -v localstorage:/datastore -p 80:5000 deepquestai/deepstack
+### Detecting/Recognizing faces
 
-# Notes on the number of faces being trained: 
-From their API FAQ: https://docs.deepstack.cc/faq/index.html#apis-face
+After the last step you can 
+Example of scan service: 
+
+```
+
+service: ai_dashboard.scan
+target:
+  entity_id: image_processing.face_recognition_central
+data:
+  camera_scan_entity_id: camera.generic_camera
+```
+
+After the scan the image_processing entity update its attributes. This has the information on the number of faces, if any face was recognized and other metrics
+
+
+## FAQs
 
 ### How does Face Recognition works?
-The face recognition API allows you to register a name/id with a face by sending at least 1 image containing the person’s face and corresponding name/id. Once a face has been registered, you can send any other image containing the person’s face or with other faces as well to find and identify the registered person(s) by name/id.
+The AI dashboard allows you to register a name/id with a face by sending at least 1 image containing the person’s face and corresponding name/id. Once a face has been registered, the API can recognize the person in new image (e.g in cameras) by calling the corresponding service.
 
-There is no limit to the the number of faces you send for improved recognition accuracy. It is recommended that you ensure you provide diverse images of the person’s face if you are providing multiple image samples for face registration.
+There is no limit to the the number of faces you send for improved recognition accuracy. Although by our benchmarks, one photos is usually enough, It is recommended that you provide diverse images of the person’s face in several angles. 
 
-Visit the Face Recognition page in this documentation for the sample code.
 
 ### What if I try to recognize a face I haven’t registered?
 The Face API will still return a detected a face but it will be recognized as unknown.
 
 ### Can I update a registered face with more images?
-Yes. All you need to do is to send a POST request with the new image using the exact same name/id you used for the previous registration.
-
-# Notes on automation: 
-
-Example of scan service: 
-
-```
-service: ai_dashboard.scan
-data:
-  camera_scan_entity_id: camera_entity_id
-target:
-  entity_id: image_processing.face_recognition_central
-```
-
-After the scan the image_processing entity update its attributes. This has the information on the number of faces, if any face was recognized  and other metrics
-
-# 
-
+Yes. All you need to do is to go to the AI dashboard and upload another photo. 
 
 # Dev test:
 I recommend using a virtual enviroment for the following
@@ -70,4 +95,3 @@ e.g.
 You might need to run the pytest using the -m flag if the above command dones not work
 
 ``` python3 -m pytest tests```
-

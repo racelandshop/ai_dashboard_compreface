@@ -1,5 +1,5 @@
 {
-    "name": "custom_card broadlink",
+    "name": "ai_dashboard",
     "hacs": "1.6.0",
     "homeassistant": "0.118.0"
 }

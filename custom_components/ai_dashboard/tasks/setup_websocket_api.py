@@ -33,8 +33,8 @@ class Task(AIFacialDashboardTask):
     async def async_execute(self) -> None:
         """Execute the task."""
         async_register_command(self.hass, send_camera_database_to_frontend)
-        async_register_command(self.hass, teach_face_deepstack)
-        async_register_command(self.hass, delete_face_deepstack)
+        async_register_command(self.hass, teach_face)
+        async_register_command(self.hass, delete_face)
 
        
 
@@ -48,7 +48,7 @@ class Task(AIFacialDashboardTask):
 @websocket_api.async_response
 async def send_camera_database_to_frontend(hass, connection, msg):
     image_processing_entity = hass.data[DOMAIN].image_processing_entity
-    result = await hass.async_add_executor_job(image_processing_entity.get_deepstack_stored_faces)
+    result = await hass.async_add_executor_job(image_processing_entity.get_stored_faces)
     if result: 
         list_of_faces = image_processing_entity.registered_faces
         connection.send_message(websocket_api.result_message(msg["id"], list_of_faces))
@@ -65,7 +65,7 @@ async def send_camera_database_to_frontend(hass, connection, msg):
 )
 @websocket_api.require_admin
 @websocket_api.async_response
-async def teach_face_deepstack(hass, connection, msg):
+async def teach_face(hass, connection, msg):
     name = msg["name"]
     url_list = msg["url"]
     image_processing_entity = hass.data[DOMAIN].image_processing_entity
@@ -84,8 +84,8 @@ async def teach_face_deepstack(hass, connection, msg):
 )
 @websocket_api.require_admin
 @websocket_api.async_response
-async def delete_face_deepstack(hass, connection, msg):
+async def delete_face(hass, connection, msg):
     face_name = msg["name"]
     image_processing_entity = hass.data[DOMAIN].image_processing_entity
-    await hass.async_add_executor_job(image_processing_entity.delete_deepstack_stored_faces, face_name)
+    await hass.async_add_executor_job(image_processing_entity.delete_stored_faces, face_name)
     connection.send_message(websocket_api.result_message(msg["id"], result = True))

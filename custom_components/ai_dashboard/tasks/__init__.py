@@ -1,1 +1,1 @@
-"""Init AI Facial Dashbooard tasks."""
+"""Init AI Facial Dashboard tasks."""
