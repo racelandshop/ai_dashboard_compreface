@@ -233,11 +233,10 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
                 self.faces, self.total_faces,
             )#Fires an event for each matched face.
             
-            if not self._detect_only:
-                if self._save_faces and self._save_faces_folder:
-                    self.save_faces(
-                        pil_image, self._save_faces_folder
-                    )
+            if self._save_faces and self._save_faces_folder:
+                self.save_faces(
+                    pil_image, self._save_faces_folder
+                )
 
             if self._save_file_folder:
                 self.save_image(

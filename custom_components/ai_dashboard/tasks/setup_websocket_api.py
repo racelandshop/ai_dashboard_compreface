@@ -25,8 +25,6 @@ async def async_setup_task(hacs: AIFacialDashboardTask, hass: HomeAssistant) -> 
     return Task(hacs=hacs, hass=hass)
 
 
-#TODO Add proper error handling here
-
 class Task(AIFacialDashboardTask):
     """Setup the HACS websocket API."""
 
