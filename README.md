@@ -38,6 +38,10 @@ Parameters/Options explanation
 
 This will create a new dashboard where you can register faces. The face detection/recognition is performed through a service
 
+To get the CompreFace API keys, go to http://localhost:8000/ (or whatever the IP address of the machine you are running CompreFace). By default the keys should be "00000000-0000-0000-0000-000000000002" for recognition and "00000000-0000-0000-0000-000000000003" for dections. 
+If these keys to not exist you can always create new keys. 
+
+
 ## How does it work? 
 
 ### Registering faces
@@ -49,7 +53,7 @@ To register a face you need to go the "AI Dashboard" tab that was just created.
 
 You will see a list of users as well as the registered status. If everything was corretly setup you should have all user with the "not registered" status. 
 
-From here you can upload your photo to regiter the respective faces. You can upload more than one photo at the same time, but make sure that the face is visible and is the only face in the photo before uploading. You will receive a notification on HA after uploading with the number of photo uploaded.
+From here, you can upload your photo to register the respective faces. You can upload more than one photo at the same time, but make sure that the face is visible and is the only face in the photo before uploading. After uploading, you will receive a notification on Home Assistant with the number of photos uploaded.
 
 ### Detecting/Recognizing faces
 
