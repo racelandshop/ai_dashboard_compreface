@@ -373,9 +373,9 @@ class FaceClassifyEntity(ImageProcessingFaceEntity):
             box = face["bounding_box"]
             confidence = face["confidence"]
             face_name = face["name"]
-
+            img_width, img_heigh = pil_image.width, pil_image.height
             cropped_image = pil_image.crop(
-                (box["x_min"], box["y_min"], box["x_max"], box["y_max"])
+                (box["x_min"]*img_width, box["y_min"]*img_heigh, box["x_max"]*img_width, box["y_max"]*img_heigh)
             )
 
             timestamp_save_path = directory / f"{face_name}_{confidence:.1f}_{self._last_detection}.jpg"
