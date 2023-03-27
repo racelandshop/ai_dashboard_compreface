@@ -13,7 +13,14 @@ To run this custom component, you need to set up the CompreFace backend. A docke
 
 To run the docker-compose simply type 
 ```
+cd compreFace-docker-compose
 docker-compose up -d
+```
+
+If this is your first time using the compreFace API, make sure you clean the registered faces. Some compreFace releases come with a demo database which you might need to delete. Simple run the clean.sh while the docker-container is running 
+
+```
+sh clean.sh
 ```
 
 ## Setting up integration
